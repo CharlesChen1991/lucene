@@ -50,7 +50,8 @@ public class IndexAndSearchSample {
             IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
             //指定创建新索引，后续也可以指定为更新，创建或更新
             iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
-
+            //此处设定不实用压缩模式，展示真实生成的文件目录
+            iwc.setUseCompoundFile(false);
             IndexWriter writer = new IndexWriter(dir, iwc);
             //开始构建索引
             indexDocs(writer, docDir);
@@ -168,7 +169,6 @@ public class IndexAndSearchSample {
                 System.out.println("updating " + file);
                 writer.updateDocument(new Term("path", file.toString()), doc);
             }
-            writer.commit();
         }
     }
     public static void doPagingSearch(BufferedReader in, IndexSearcher searcher, Query query,
